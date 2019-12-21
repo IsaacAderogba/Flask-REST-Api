@@ -1,3 +1,5 @@
+import os
+
 from db import db
 from flask import Flask
 from flask_restful import Api
@@ -11,8 +13,9 @@ from resources.store import Store, StoreList
 app = Flask(__name__)
 # turns off Flask SQLAlchemy mod tracker
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-# can be postgresql
-app.config["SQLALCHEMY_DATABASE_URI"] = 'sqlite:///data.db'
+# can be postgresql - second arg is default value
+app.config["SQLALCHEMY_DATABASE_URI"] = os.environ.get(
+    "DATABASE_URL", 'sqlite:///data.db')
 app.secret_key = 'isaac'
 api = Api(app)
 
